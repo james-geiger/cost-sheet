@@ -1,0 +1,19 @@
+<div id="new" v-cloak>
+
+  <div class="container">
+    <ajax-form action="newCostsheet" :handle-parsing="handleParsingNewCostsheetForm" @submitted="submittedUploadThingForm">
+      <div class="form-group">
+        <label>Client's Name</label>
+        <input class="form-control" type="text" v-model="newFormData.client" placeholder="Foster Breckenridge">
+      </div>
+      <div class="form-group">
+        <label>Property Address</label>
+        <input class="form-control" type="text" v-model="newFormData.address" placeholder="123 Oak St">
+      </div>
+
+      <ajax-button type="submit" class="btn btn-primary ml-1">Share item</ajax-button>
+    </ajax-form>
+  </div>
+
+</div>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>

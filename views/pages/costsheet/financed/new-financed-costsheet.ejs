@@ -1,0 +1,353 @@
+<div id="new-financed-costsheet" v-cloak>
+  <div class="uk-container uk-margin-auto" uk-grid>
+      <div class="uk-width-3-5 uk-margin-auto uk-padding-remove">
+        <ul class="uk-breadcrumb">
+          <li><a href="">Create New</a></li>
+          <li><a href="">Buyer's Cost Sheet</a></li>
+          <li><span>Financed Buyer</span></li>
+        </ul>
+        <ajax-form class="uk-form-stacked" action="newCostsheet" :syncing.sync="syncing" :cloud-error.sync="cloudError" :form-data="newFormData" :form-rules="formRules" :form-errors.sync="formErrors" @submitted="submittedNewCostsheetForm">
+          <fieldset class="uk-fieldset">
+            <legend class="uk-legend uk-text-primary uk-text-uppercase">Demographics</legend>
+            <div class="uk-margin">
+              <label class="uk-form-label" for="clientName">Client's Name</label>
+              <div class="uk-form-controls">
+                <input class="uk-input" type="text" id="clientName" name="client" ref="client" placeholder="Foster Breckenridge" v-model="newFormData.client" :class="[formErrors.client ? 'uk-form-danger' : '']">
+                <label class="uk-form-label uk-text-danger" v-if="formErrors.client">Please provide a name for this client.</label>
+              </div>
+            </div>
+            <div class="uk-margin">
+              <label class="uk-form-label" for="address">Property Address</label>
+              <div class="uk-form-controls">
+                <input class="uk-input" type="text" id="address" name="address" placeholder="123 Oak St" v-model="newFormData.address">
+              </div>
+            </div>
+            <div class="uk-margin">
+              <label class="uk-form-label" for="county">County</label>
+              <div class="uk-form-controls">
+                <select class="uk-select" id="county" name="county"  v-model.number="newFormData.county">
+                  <option value="0" disabled="disabled">Select One</option>
+                  <option value="1">Douglas or Sarpy</option>
+                  <option value="2" disabled="disabled">All Others</option>
+                </select>
+              </div>
+            </div>
+            <div class="uk-margin">
+              <label class="uk-form-label" for="offerStatus">Offer Status</label>
+              <div class="uk-form-controls">
+                <select class="uk-select" id="offerStatus" name="offerStatus"  v-model.number="newFormData.offerStatus">
+                  <option value="0" disabled="disabled">Select One</option>
+                  <option value="1">Initial</option>
+                  <option value="2">Counter</option>
+                  <option value="3">Accepted</option>
+                </select>
+              </div>
+            </div>
+            <div class="uk-margin">
+              <label class="uk-form-label" for="closingDate">Closing Date</label>
+              <div class="uk-form-controls">
+                <vuejs-datepicker :input-class="'uk-input'" :format="customFormatter" name="closingDate" placeholder="DD/MM/YYYY"></vuejs-datepicker>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset class="uk-fieldset">
+            <legend class="uk-legend uk-text-primary uk-text-uppercase">Financials</legend>
+            <div class="uk-margin">
+              <label class="uk-form-label" for="purchasePrice">Purchase Price</label>
+              <div class="uk-form-controls">
+                <div class="uk-inline uk-width-1-1">
+                    <span class="uk-form-icon" :uk-icon="'icon: ' + icons.dollar"></span>
+                    <input class="uk-input" type="number" step="0.01" id="purchasePrice" name="purchasePrice" placeholder="250000.00"  v-model.number="newFormData.purchasePrice">
+                </div>
+              </div>
+            </div>
+            <div class="uk-margin">
+              <label class="uk-form-label">Down Payment</label>
+              <div class="uk-grid-divider uk-child-width-expand@s" uk-grid>
+                  <div>
+                    <div class="uk-margin">
+                      <label class="uk-form-label" for="downPaymentPercent">Percent</label>
+                      <div class="uk-form-controls">
+                        <div class="uk-inline uk-width-1-1">
+                          <span class="uk-form-icon uk-form-icon-flip" :uk-icon="'icon: ' + icons.percent"></span>
+                          <input class="uk-input downPayment" type="number" step="0.01" id="downPaymentPercent" name="downPaymentPercent" placeholder="20.00" v-model.number="newFormData.downPaymentPercent">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="uk-margin">
+                    <label class="uk-form-label" for="downPaymentFixed">Fixed Amount</label>
+                    <div class="uk-form-controls">
+                      <div class="uk-inline uk-width-1-1">
+                          <span class="uk-form-icon" :uk-icon="'icon: ' + icons.dollar"></span>
+                          <input class="uk-input downPayment" type="number" step="0.01" id="downPaymentFixed" name="downPaymentFixed" placeholder="15000.00" v-model.number="newFormData.downPaymentFixed">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="uk-margin">
+              <label class="uk-form-label" for="earnestDeposit">Earnest Deposit</label>
+              <div class="uk-form-controls">
+                <div class="uk-inline uk-width-1-1">
+                    <span class="uk-form-icon" :uk-icon="'icon: ' + icons.dollar"></span>
+                    <input class="uk-input" type="number" step="0.01" id="earnestDeposit" name="earnestDeposit" placeholder="1000.00"  v-model.number="newFormData.earnestDeposit">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset class="uk-fieldset">
+            <legend class="uk-legend uk-text-primary uk-text-uppercase">Financing</legend>
+            <div class="uk-margin">
+              <label class="uk-form-label" for="loanType">Loan Type</label>
+              <div class="uk-form-controls">
+                <select class="uk-select" id="loanType" name="loanType"  v-model.number="newFormData.loanType">
+                  <option value="0" disabled="disabled">Select One</option>
+                  <option value="1">Conventional</option>
+                  <option value="2">FHA</option>
+                  <option value="3">VA</option>
+                </select>
+              </div>
+            </div>
+            <div class="uk-margin">
+              <label class="uk-form-label" for="interest">Interest Rate</label>
+              <div class="uk-form-controls">
+                <div class="uk-inline uk-width-1-1">
+                  <span class="uk-form-icon uk-form-icon-flip" :uk-icon="'icon: ' + icons.percent"></span>
+                  <input class="uk-input" type="number" step="0.125" id="interest" name="interest" placeholder="5.125"  v-model.number="newFormData.interest">
+                </div>
+              </div>
+            </div>
+            <div class="uk-margin">
+              <label class="uk-form-label" for="period">Loan Term</label>
+              <div class="uk-form-controls">
+                <select class="uk-select" id="period" name="period"  v-model.number="newFormData.period">
+                  <option value="0" disabled="disabled">Select One</option>
+                  <option value="360">30 Year</option>
+                  <option value="300">25 Year</option>
+                  <option value="240">20 Year</option>
+                  <option value="180">15 Year</option>
+                  <option value="120">10 Year</option>
+                </select>
+              </div>
+            </div>
+            <div class="uk-margin">
+              <label><input class="uk-checkbox" type="checkbox" id="includeEscrow" name="includeEscrow" checked="checked" v-model="newFormData.includeEscrow"> Include escrow in payment</label>
+            </div>
+          </fieldset>
+          <fieldset class="uk-fieldset">
+            <legend class="uk-legend uk-text-primary uk-text-uppercase">Taxes &amp; Insurance</legend>
+            <div class="uk-margin">
+              <label class="uk-form-label" for="propertyTax">Annual Property Taxes</label>
+              <div class="uk-form-controls">
+                <div class="uk-inline uk-width-1-1">
+                    <span class="uk-form-icon" :uk-icon="'icon: ' + icons.dollar"></span>
+                    <input class="uk-input" type="number" step="0.01" id="propertyTax" name="propertyTax" placeholder="3500.00"  v-model.number="newFormData.propertyTax">
+                </div>
+              </div>
+            </div>
+            <div class="uk-margin">
+              <label class="uk-form-label" for="insurance">Insurance</label>
+              <div class="uk-form-controls">
+                <div class="uk-inline uk-width-1-1">
+                    <span class="uk-form-icon" :uk-icon="'icon: ' + icons.dollar"></span>
+                    <a class="uk-form-icon uk-form-icon-flip" :uk-icon="'icon: ' + icons.info" uk-tooltip="title: Click to enter estimated insurance; pos: right" id="estimateInsurance"></a>
+                    <input class="uk-input" type="number" step="0.01" id="insurance" name="insurance" placeholder="1500.00" v-model.number="newFormData.insurance">
+                </div>
+                <p class="uk-form-label uk-text-muted uk-margin-remove-top">Include actual or estimated homeowner's and flood</p>
+              </div>
+            </div>
+            <div class="uk-margin">
+              <label class="uk-form-label" for="associationDues">Annual Association Dues</label>
+              <div class="uk-form-controls">
+                <div class="uk-inline uk-width-1-1">
+                    <span class="uk-form-icon" :uk-icon="'icon: ' + icons.dollar"></span>
+                    <input class="uk-input" type="number" step="0.01" id="associationDues" name="associationDues" placeholder="250.00" v-model.number="newFormData.associationDues">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset class="uk-fieldset">
+            <legend class="uk-legend uk-text-primary uk-text-uppercase">Other Costs &amp; Fees</legend>
+            <div class="uk-margin">
+              <label class="uk-form-label" for="lenderPaid">Lender Paid Costs</label>
+              <div class="uk-form-controls">
+                <input class="uk-input" type="number" step="0.01" id="lenderPaid" name="lenderPaid" placeholder="400.00" v-model.number="newFormData.lenderPaid">
+              </div>
+            </div>
+            <div class="uk-margin">
+              <label class="uk-form-label" for="sellerPaid">Seller Paid Costs</label>
+              <div class="uk-form-controls">
+                <input class="uk-input" type="number" step="0.01" id="sellerPaid" name="sellerPaid" placeholder="1500.00" v-model.number="newFormData.sellerPaid">
+              </div>
+            </div>
+            <div class="uk-margin">
+              <label class="uk-form-label" for="homeInspection">Home Inspection Fee</label>
+              <div class="uk-form-controls">
+                <input class="uk-input" type="number" step="0.01" id="homeInspection" name="homeInspection" placeholder="400.00" v-model.number="newFormData.homeInspection">
+                <p class="uk-form-label uk-text-muted uk-margin-remove-top">Include only if buyer-paid at closing</p>
+              </div>
+            </div>
+            <div class="uk-margin">
+              <label class="uk-form-label" for="radonInspection">Radon Inspection Fee</label>
+              <div class="uk-form-controls">
+                <input class="uk-input" type="number" step="0.01" id="radonInspection" name="radonInspection" placeholder="200.00" v-model.number="newFormData.radonInspection">
+                <p class="uk-form-label uk-text-muted uk-margin-remove-top">Include only if buyer-paid at closing</p>
+              </div>
+            </div>
+            <div class="uk-margin">
+              <label class="uk-form-label" for="homeWarranty">Home Warranty</label>
+              <div class="uk-form-controls">
+                <input class="uk-input" type="number" step="0.01" id="homeWarranty" name="homeWarranty" placeholder="595.00" v-model.number="newFormData.homeWarranty">
+                <p class="uk-form-label uk-text-muted uk-margin-remove-top">Include only if buyer-paid at closing</p>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset class="uk-fieldset">
+            <legend class="uk-legend uk-text-primary uk-text-uppercase">View/Overwrite Standard Values</legend>
+            <ul uk-accordion="multiple: true">
+              <li>
+                  <a class="uk-accordion-title" href="#">Fees</a>
+                  <div class="uk-accordion-content">
+                    <div class="uk-margin">
+                      <label class="uk-form-label" for="brokerAdmin">Broker Administration Fee</label>
+                      <div class="uk-form-controls">
+                        <input class="uk-input" type="number" step="0.01" id="brokerAdmin" name="brokerAdmin" value="395.00" v-model.number="newFormData.brokerAdmin">
+                      </div>
+                    </div>
+                    <div class="uk-margin">
+                      <label class="uk-form-label" for="originationFee">Loan Origination Fee</label>
+                      <div class="uk-form-controls">
+                        <input class="uk-input" type="number" step="0.01" id="originationFee" name="originationFee" value="700.00" v-model.number="newFormData.originationFee">
+                      </div>
+                    </div>
+                    <div class="uk-margin">
+                      <label class="uk-form-label" for="creditReport">Credit Reporting Fee</label>
+                      <div class="uk-form-controls">
+                        <input class="uk-input" type="number" step="0.01" id="creditReport" name="creditReport" value="35.00" v-model.number="newFormData.creditReport">
+                      </div>
+                    </div>
+                    <div class="uk-margin">
+                      <label class="uk-form-label" for="appraisalFee">Appraisal Fee</label>
+                      <div class="uk-form-controls">
+                        <input class="uk-input" type="number" step="0.01" id="appraisalFee" name="appraisalFee" value="450.00" v-model.number="newFormData.appraisalFee">
+                      </div>
+                    </div>
+                    <div class="uk-margin">
+                      <label class="uk-form-label" for="settlementFee">Title/Escrow Settlement Fee</label>
+                      <div class="uk-form-controls">
+                        <input class="uk-input" type="number" step="0.01" id="settlementFee" name="settlementFee" value="500.00" v-model.number="newFormData.settlementFee">
+                      </div>
+                    </div>
+                    <div class="uk-margin">
+                      <label class="uk-form-label" for="certifications">Flood/Tax Certification Fees</label>
+                      <div class="uk-form-controls">
+                        <input class="uk-input" type="number" step="0.01" id="certifications" name="certifications" value="67.00" v-model.number="newFormData.certifications">
+                      </div>
+                    </div>
+                    <div class="uk-margin">
+                      <label class="uk-form-label" for="endorsements">ALTA Endorsement Fees</label>
+                      <div class="uk-form-controls">
+                        <input class="uk-input" type="number" step="0.01" id="endorsements" name="endorsements" value="50.00" v-model.number="newFormData.endorsements">
+                      </div>
+                    </div>
+                    <div class="uk-margin">
+                      <label class="uk-form-label" for="recordingFee">County Recording Fee</label>
+                      <div class="uk-form-controls">
+                        <input class="uk-input" type="number" step="0.01" id="recordingFee" name="recordingFee" value="150.00" v-model.number="newFormData.recordingFee">
+                      </div>
+                    </div>
+                    <div class="uk-margin">
+                      <label class="uk-form-label" for="plotPlan">Survey/Plot Plan</label>
+                      <div class="uk-form-controls">
+                        <input class="uk-input" type="number" step="0.01" id="plotPlan" name="plotPlan" value="85.00" v-model.number="newFormData.plotPlan">
+                      </div>
+                    </div>
+                    <div class="uk-margin">
+                      <label class="uk-form-label" for="pestInspection">Pest Inspection</label>
+                      <div class="uk-form-controls">
+                        <input class="uk-input" type="number" step="0.01" id="pestInspection" name="pestInspection" value="85.00" v-model.number="newFormData.pestInspection">
+                      </div>
+                    </div>
+                    <div class="uk-margin">
+                      <label class="uk-form-label" for="insuranceImpoundMonths">Insurance Impound Months</label>
+                      <div class="uk-form-controls">
+                        <input class="uk-input" type="number" step="1" id="insuranceImpoundMonths" name="insuranceImpoundMonths" v-model.number="newFormData.insuranceImpoundMonths">
+                      </div>
+                    </div>
+                  </div>
+              </li>
+              <li>
+                  <a class="uk-accordion-title" href="#">Mortgage Insurance</a>
+                  <div class="uk-accordion-content">
+                    <div class="uk-margin">
+                      <label class="uk-form-label" for="borrowerCredit">Borrower's Credit Range</label>
+                      <div class="uk-form-controls">
+                        <select class="uk-select" id="borrowerCredit" name="borrowerCredit" v-model.number="newFormData.borrowerCredit">
+                          <option value="1">760+</option>
+                          <option value="2">740–759</option>
+                          <option value="3">720–739</option>
+                          <option value="4">700–719</option>
+                          <option value="5">680–699</option>
+                          <option value="6">660–679</option>
+                          <option value="7">640–659</option>
+                          <option value="8">620–639</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="uk-margin">
+                      <label class="uk-form-label" for="borrowerDti">Borrower's Debt-to-Income Ratio</label>
+                      <div class="uk-form-controls">
+                        <select class="uk-select" id="borrowerDti" name="borrowerDti" v-model.number="newFormData.borrowerDti">
+                          <option value="1">45% or less</option>
+                          <option value="2">Greater than 45%</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="uk-margin">
+                      <label class="uk-form-label" for="borrowerNumber">Number of Borrowers</label>
+                      <div class="uk-form-controls">
+                        <select class="uk-select" id="borrowerNumber" name="borrowerNumber" v-model.number="newFormData.borrowerNumber">
+                          <option value="1">One Borrower</option>
+                          <option value="2">Two or More Borrowers</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+              </li>
+              <li>
+                  <a class="uk-accordion-title" href="#">VA Loan</a>
+                  <div class="uk-accordion-content">
+                    <div class="uk-margin">
+                      <label><input class="uk-checkbox" type="checkbox" id="borrowerVaExempt" name="borrowerVaExempt" v-model="newFormData.borrowerVaExempt"> Check if Borrower is exempt from paying the VA funding fee.</label>
+                    </div>
+                    <div class="uk-margin">
+                      <label class="uk-form-label" for="borrowerVaService">Branch of Military Service</label>
+                      <div class="uk-form-controls">
+                        <select class="uk-select" id="borrowerVaService" name="borrowerVaService" v-model.number="newFormData.borrowerVaService">
+                          <option value="1">General Military</option>
+                          <option value="2">National Guard, Reserves</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="uk-margin">
+                      <label class="uk-form-label" for="borrowerVaUsage">Benefit Usage</label>
+                      <div class="uk-form-controls">
+                        <select class="uk-select" id="borrowerVaUsage" name="borrowerVaUsage" v-model.number="newFormData.borrowerVaUsage">
+                          <option value="1">First Use</option>
+                          <option value="2">All Subsequent Uses</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+              </li>
+          </ul>
+          </fieldset>
+          <ajax-button type="submit" class="uk-button uk-button-primary uk-width-1-1">Generate</ajax-button>
+        </ajax-form>
+      </div>
+    </div>
+</div>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>

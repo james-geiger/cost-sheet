@@ -1,0 +1,31 @@
+<div id="500">
+  <div class="container text-center">
+    <h1 class="display-1 mb-3">Oh my.</h1>
+    <hr/>
+    <h2>We've encountered an unexpected error.</h2>
+    <div class="help">
+      <p>Please report it using the form below.</p>
+    </div>
+  </div>
+  <div class="container">
+    <form id="500-form">
+      <fieldset class="uk-fieldset">
+          <div class="uk-margin">
+              <label for="priority" class="uk-fomr-label">Priority</label>
+              <select id="priority" class="uk-select" name="priority">
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                  <option value="urgent" selected >Urgent</option>
+              </select>
+          </div>
+          <div class="uk-margin">
+              <textarea class="uk-textarea" rows="3" placeholder="I was just trying to..." name="description"></textarea>
+          </div>
+          <input type="hidden" name="user" value="<%- me.fullName %>">
+          <input type="hidden" name="route" id="500link" value="">
+          <button type="submit" class="uk-button uk-button-small uk-button-default uk-width-1-1" type="button" name="submit" id="500submit">Submit</button>
+      </fieldset>
+    </form>
+  </div>
+</div>

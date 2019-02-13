@@ -1,0 +1,146 @@
+<div id="new-netsheet" v-cloak>
+
+  <div class="uk-container uk-margin-auto" uk-grid>
+    <div class="uk-width-3-5 uk-margin-auto uk-padding-remove">
+      <ul class="uk-breadcrumb">
+        <li><a href="">Create New</a></li>
+        <li><span>Seller Net Sheet</span></li>
+      </ul>
+      <form class="uk-form-stacked" action="/seller" method="post">
+        <ajax-form class="uk-form-stacked" action="newNetsheet" :syncing.sync="syncing" :cloud-error.sync="cloudError" :form-data="newFormData" :form-rules="formRules" :form-errors.sync="formErrors" @submitted="submittedNewNetsheetForm">
+        <fieldset class="uk-fieldset">
+          <legend class="uk-legend uk-text-primary uk-text-uppercase">Demographics</legend>
+          <div class="uk-margin">
+            <label class="uk-form-label" for="clientName">Client's Name</label>
+            <div class="uk-form-controls">
+              <input class="uk-input" type="text" id="client" name="client" placeholder="Foster Breckenridge" v-model.number="newFormData.client">
+            </div>
+          </div>
+          <div class="uk-margin">
+            <label class="uk-form-label" for="address">Property Address</label>
+            <div class="uk-form-controls">
+              <input class="uk-input" type="text" id="address" name="address" placeholder="123 Oak St" v-model="newFormData.address">
+            </div>
+          </div>
+          <div class="uk-margin">
+            <label class="uk-form-label" for="county">County</label>
+            <div class="uk-form-controls">
+              <select class="uk-select" id="county" name="county" v-model.number="newFormData.county">
+                <option value="0" disabled="disabled">Select One</option>
+                <option value="1">Douglas or Sarpy</option>
+                <option value="2" disabled="disabled">All Others</option>
+              </select>
+            </div>
+          </div>
+          <div class="uk-margin">
+            <label class="uk-form-label" for="offerStatus">Offer Status</label>
+            <div class="uk-form-controls">
+              <select class="uk-select" id="offerStatus" name="offerStatus" v-model.number="newFormData.offerStatus">
+                <option value="0" disabled="disabled">Select One</option>
+                <option value="1">Initial</option>
+                <option value="2">Counter</option>
+                <option value="3">Accepted</option>
+              </select>
+            </div>
+          </div>
+          <div class="uk-margin">
+            <label class="uk-form-label" for="closingDate">Estimated Closing Date</label>
+            <div class="uk-form-controls">
+              <vuejs-datepicker :input-class="'uk-input'" :format="customFormatter" name="closingDate" placeholder="MM/DD/YYYY"></vuejs-datepicker>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="uk-fieldset">
+          <legend class="uk-legend uk-text-primary uk-text-uppercase">Financials</legend>
+          <div class="uk-margin">
+            <label class="uk-form-label" for="sellingPrice">Selling Price</label>
+            <div class="uk-form-controls">
+              <input class="uk-input" type="number" step="0.01" id="purchasePrice" name="purchasePrice" placeholder="250000.00" v-model.number="newFormData.purchasePrice">
+            </div>
+          </div>
+          <div class="uk-margin">
+            <label class="uk-form-label" for="commissionPercent">Commission</label>
+            <div class="uk-form-controls">
+              <input class="uk-input" type="number" step="0.01" id="commissionPercent" name="commissionPercent" placeholder="6.0" v-model.number="newFormData.commissionPercent">
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="uk-fieldset">
+          <legend class="uk-legend uk-text-primary uk-text-uppercase">Taxes</legend>
+          <div class="uk-margin">
+            <label class="uk-form-label" for="propertyTax">Annual Property Taxes</label>
+            <div class="uk-form-controls">
+              <input class="uk-input" type="number" step="0.01" id="propertyTax" name="propertyTax" placeholder="3500.00" v-model.number="newFormData.propertyTax">
+            </div>
+          </div>
+          <div class="uk-margin">
+            <label><input class="uk-checkbox" type="checkbox" id="borrowerVaExempt" name="borrowerVaExempt" v-model="newFormData.propertyTaxIsCurrent"> Check if Sellers are current on property taxes.</label>
+          </div>
+
+        </fieldset>
+        <fieldset class="uk-fieldset">
+          <legend class="uk-legend uk-text-primary uk-text-uppercase">Existing Mortgages</legend>
+          <div class="uk-margin">
+            <label class="uk-form-label" for="mortgagePayoffInitial">First Mortgage Payoff</label>
+            <div class="uk-form-controls">
+              <input class="uk-input" type="number" step="0.01" id="firstMortgage" name="firstMortgage" placeholder="150000.00" v-model.number="newFormData.firstMortgage">
+            </div>
+          </div>
+          <div class="uk-margin">
+            <label class="uk-form-label" for="mortgagePayoffSecondary">Second Mortgage Payoff</label>
+            <div class="uk-form-controls">
+              <input class="uk-input" type="number" step="0.01" id="secondMortgage" name="secondMortgage" placeholder="15000.00" v-model.number="newFormData.secondMortgage">
+            </div>
+          </div>
+          <div class="uk-margin">
+            <label class="uk-form-label" for="mortgagePayoffTertiary">Third Mortgage Payoff</label>
+            <div class="uk-form-controls">
+              <input class="uk-input" type="number" step="0.01" id="thirdMortgage" name="thirdMortgage" placeholder="500.00" v-model.number="newFormData.thirdMortgage">
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="uk-fieldset">
+          <legend class="uk-legend uk-text-primary uk-text-uppercase">Other Costs &amp; Fees</legend>
+          <div class="uk-margin">
+            <label class="uk-form-label" for="sellerPaid">Proposed Seller Paid Costs</label>
+            <div class="uk-form-controls">
+              <input class="uk-input" type="number" step="0.01" id="sellerPaid" name="sellerPaid" placeholder="1500.00" v-model.number="newFormData.sellerPaid">
+            </div>
+          </div>
+          <div class="uk-margin">
+            <label class="uk-form-label" for="homeWarranty">Home Warranty</label>
+            <div class="uk-form-controls">
+              <input class="uk-input" type="number" step="0.01" id="homeWarranty" name="homeWarranty" placeholder="595.00" v-model.number="newFormData.homeWarranty">
+            </div>
+            <p class="uk-form-label uk-text-muted uk-margin-remove-top">Include only if seller-paid at closing</p>
+          </div>
+        </fieldset>
+        <fieldset class="uk-fieldset">
+          <legend class="uk-legend uk-text-primary uk-text-uppercase">View/Overwrite Standard Values</legend>
+          <ul uk-accordion="multiple: true">
+            <li>
+              <a class="uk-accordion-title" href="#">Fees</a>
+              <div class="uk-accordion-content">
+                <div class="uk-margin">
+                  <label class="uk-form-label" for="brokerAdmin">Broker Administration Fee</label>
+                  <div class="uk-form-controls">
+                    <input class="uk-input" type="number" step="0.01" id="brokerAdmin" name="brokerAdmin" v-model.number="newFormData.brokerAdmin">
+                  </div>
+                </div>
+                <div class="uk-margin">
+                  <label class="uk-form-label" for="settlementFee">Title/Escrow Settlement Fee</label>
+                  <div class="uk-form-controls">
+                    <input class="uk-input" type="number" step="0.01" id="settlementFee" name="settlementFee" v-model.number="newFormData.settlementFee">
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </fieldset>
+        <ajax-button type="submit" class="uk-button uk-button-primary uk-width-1-1">Generate</ajax-button>
+      </ajax-form>
+    </div>
+  </div>
+
+</div>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>

@@ -1,0 +1,67 @@
+<div id="view-dashboard">
+  <div class="uk-container uk-margin-auto">
+    <div class="uk-width-3-5 uk-margin-auto uk-padding-remove">
+      <h3 class="uk-heading-line"><span>Create New Sheets</span></h3>
+      <div uk-grid class="uk-grid-match">
+        <div class="uk-width-1-2">
+          <div class="uk-card uk-card-default uk-card-hover">
+            <div class="uk-card-body">
+              <h3 class="uk-card-title uk-text-uppercase uk-text-primary uk-margin-remove-bottom">Financed Buyer</h3>
+              <p class="uk-margin-remove-top">For buyers with bank, private, or seller financing.</p>
+            </div>
+            <div class="uk-card-footer" style="border-top:none;">
+                <a href="/new-costsheet/financed" class="uk-button uk-button-default uk-width-1-1">Create</a>
+            </div>
+          </div>
+        </div>
+        <div class="uk-width-1-2">
+          <div class="uk-card uk-card-default uk-card-hover">
+            <div class="uk-card-body">
+              <h3 class="uk-card-title uk-text-uppercase uk-text-primary uk-margin-remove-bottom">Cash Buyer</h3>
+              <p class="uk-margin-remove-top">For buyers who will be closing with all cash.</p>
+            </div>
+            <div class="uk-card-footer" style="border-top:none;">
+                <a href="/new-costsheet/cash" class="uk-button uk-button-default uk-width-1-1">Create</a>
+            </div>
+          </div>
+        </div>
+        <div class="uk-width-1-2">
+          <div class="uk-card uk-card-default uk-card-hover">
+            <div class="uk-card-body">
+              <h3 class="uk-card-title uk-text-uppercase uk-text-primary uk-margin-remove-bottom">Seller's Net</h3>
+              <p class="uk-margin-remove-top">For sellers to estimate sale proceeds.</p>
+            </div>
+            <div class="uk-card-footer" style="border-top:none;">
+                <a href="/new-netsheet" class="uk-button uk-button-default uk-width-1-1">Create</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3 class="uk-heading-line"><span>View Saved Sheets</span></h3>
+      <div uk-grid class="uk-grid-match">
+        <div class="uk-width-1-2">
+          <div class="uk-card uk-card-default uk-card-hover">
+            <div class="uk-card-body">
+              <h3 class="uk-card-title uk-text-uppercase uk-text-primary uk-margin-remove-bottom">Buyer Cost Sheets</h3>
+            </div>
+            <div class="uk-card-footer" style="border-top:none;">
+                <a href="/costsheet" class="uk-button uk-button-default uk-width-1-1">View Saved</a>
+            </div>
+          </div>
+        </div>
+        <div class="uk-width-1-2">
+          <div class="uk-card uk-card-default uk-card-hover">
+            <div class="uk-card-body">
+              <h3 class="uk-card-title uk-text-uppercase uk-text-primary uk-margin-remove-bottom">Seller Net Sheets</h3>
+            </div>
+            <div class="uk-card-footer" style="border-top:none;">
+                <a href="/netsheet" class="uk-button uk-button-default uk-width-1-1">View Saved</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<%- /* Expose locals as `window.SAILS_LOCALS` :: */ exposeLocalsToBrowser() %>

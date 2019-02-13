@@ -1,0 +1,19 @@
+/**
+ * cloud.setup.js
+ *
+ * Configuration for this Sails app's generated browser SDK ("Cloud").
+ *
+ * Above all, the purpose of this file is to provide endpoint definitions,
+ * each of which corresponds with one particular route+action on the server.
+ *
+ * > This file was automatically generated.
+ * > (To regenerate, run `sails run rebuild-cloud-sdk`)
+ */
+
+Cloud.setup({
+
+  /* eslint-disable */
+  methods: {"confirmEmail":{"verb":"GET","url":"/email/confirm","args":["token"]},"editFinancedCostsheet":{"verb":"GET","url":"/costsheet/financed/:sid","args":["sid"]},"editCashCostsheet":{"verb":"GET","url":"/costsheet/cash/:sid","args":["sid"]},"logout":{"verb":"GET","url":"/api/v1/account/logout","args":[]},"updatePassword":{"verb":"PUT","url":"/api/v1/account/update-password","args":["password"]},"updateProfile":{"verb":"PUT","url":"/api/v1/account/update-profile","args":["fullName","emailAddress","phone","title","brokerage"]},"updateBillingCard":{"verb":"PUT","url":"/api/v1/account/update-billing-card","args":["stripeToken","billingCardLast4","billingCardBrand","billingCardExpMonth","billingCardExpYear"]},"login":{"verb":"PUT","url":"/api/v1/entrance/login","args":["emailAddress","password","rememberMe"]},"newUser":{"verb":"POST","url":"/api/v1/entrance/new-user","args":["emailAddress","password","fullName","organization"]},"sendPasswordRecoveryEmail":{"verb":"POST","url":"/api/v1/entrance/send-password-recovery-email","args":["emailAddress"]},"updatePasswordAndLogin":{"verb":"POST","url":"/api/v1/entrance/update-password-and-login","args":["password","token"]},"deliverContactFormMessage":{"verb":"POST","url":"/api/v1/deliver-contact-form-message","args":["emailAddress","topic","fullName","message"]},"newCostsheet":{"verb":"POST","url":"/api/v1/costsheet","args":["client","address","type","offerStatus","closingDate","purchasePrice","county","downPaymentPercent","downPaymentFixed","earnestDeposit","loanType","interest","period","includeEscrow","propertyTax","insurance","associationDues","lenderPaid","sellerPaid","homeInspection","radonInspection","homeWarranty","brokerAdmin","originationFee","creditReport","appraisalFee","settlementFee","certifications","endorsements","recordingFee","plotPlan","pestInspection","insuranceImpoundMonths","taxImpoundMonths","borrowerCredit","borrowerDti","borrowerNumber","borrowerVaExempt","borrowerVaService","borrowerVaUsage"]},"updateCostsheet":{"verb":"PUT","url":"/api/v1/costsheet","args":["sid","client","address","offerStatus","closingDate","purchasePrice","county","downPaymentPercent","downPaymentFixed","earnestDeposit","loanType","interest","period","includeEscrow","propertyTax","insurance","associationDues","lenderPaid","sellerPaid","homeInspection","radonInspection","homeWarranty","brokerAdmin","originationFee","creditReport","appraisalFee","settlementFee","certifications","endorsements","recordingFee","plotPlan","pestInspection","insuranceImpoundMonths","taxImpoundMonths","borrowerCredit","borrowerDti","borrowerNumber","borrowerVaExempt","borrowerVaService","borrowerVaUsage"]},"destroyOneCostsheet":{"verb":"DELETE","url":"/api/v1/costsheet/:id","args":["id"]},"newNetsheet":{"verb":"POST","url":"/api/v1/netsheet","args":["client","address","offerStatus","closingDate","purchasePrice","county","propertyTax","propertyTaxIsCurrent","sellerPaid","homeWarranty","brokerAdmin","settlementFee","offerType"]},"updateNetsheet":{"verb":"PUT","url":"/api/v1/netsheet","args":["sid","client","address","offerStatus","closingDate","propertyTax","propertyTaxIsCurrent","purchasePrice","county","firstMortgage","secondMortgage","thirdMortgage","sellerPaid","homeWarranty","brokerAdmin","settlementFee","offerType"]},"destroyOneNetsheet":{"verb":"DELETE","url":"/api/v1/netsheet/:id","args":["id"]}}
+  /* eslint-enable */
+
+});

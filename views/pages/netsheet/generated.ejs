@@ -1,0 +1,122 @@
+<div id="generated-netsheet" v-cloak>
+  <div class="uk-container uk-margin-auto" uk-grid>
+    <div class="uk-width-3-5 uk-margin-auto uk-padding-remove">
+      <div class="uk-width-1-1 uk-text-center uk-margin-auto">
+        <h4 class="uk-text-primary uk-text-uppercase">Purchaser's Estimated Costs</h4>
+      </div>
+
+      <div class="uk-column-1-3 uk-text-center ">
+        <p class="uk-margin-remove-vertical"><small>Seller(s)</small><br><strong>{{ netsheet.client }}</strong></p>
+        <p class="uk-margin-remove-vertical"><small>Offer Status</small><br><strong>{{ netsheet.offerStatus }} Offer</strong></p>
+        <p class="uk-margin-remove-vertical"><small>Property Address</small><br><strong>{{ netsheet.address }}</strong></p>
+        <p class="uk-margin-remove-vertical"><small>Closing Date</small><br><strong>{{ netsheet.closingDate }}</strong></p>
+        <p class="uk-margin-remove-vertical"><small>Selling Price</small><br><strong>{{ netsheet.purchasePrice | toCurrency }}</strong></p>
+      </div>
+      <div class="uk-width-1-1 uk-text-center uk-margin-auto uk-margin-top">
+        <a :href="'/netsheet/'+netsheet.sid" class="uk-button uk-button-default uk-button-small">Edit</a>
+        <button class="uk-button uk-button-default uk-button-small" v-on:click="downloadPdf()">Download Signature Page</button>
+      </div>
+      <table class="uk-table uk-table-small uk-table-divider">
+        <thead>
+          <tr>
+            <th class="uk-table-expand">Estimated Credits</th>
+            <th class="uk-width-small"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-if="netsheet.purchasePrice">
+            <td>Selling Price of Property</td>
+            <td>{{ netsheet.purchasePrice | toCurrency }}</td>
+          </tr>
+          <tr v-if="values.taxProration">
+            <td>Property Tax Proration from Buyer</td>
+            <td>{{ values.taxProration | toCurrency }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="uk-text-bold uk-text-uppercase">
+            <td>Total Estimated Credits</td>
+            <td>{{ values.totalCredits | toCurrency }}</td>
+          </tr>
+        </tfoot>
+      </table>
+      <table class="uk-table uk-table-small uk-table-divider">
+        <thead>
+          <tr>
+            <th class="uk-table-expand">Estimated Debits</th>
+            <th class="uk-width-small"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-if="netsheet.firstMortgage">
+            <td>First Mortgage Payoff</td>
+            <td>{{ netsheet.firstMortgage | toCurrency }}</td>
+          </tr>
+          <tr v-if="netsheet.secondMortgage">
+            <td>Second Mortgage Payoff</td>
+            <td>{{ netsheet.secondMortgage | toCurrency }}</td>
+          </tr>
+          <tr v-if="netsheet.thirdMortgage">
+            <td>Third Mortgage Payoff</td>
+            <td>{{ netsheet.thirdMortgage | toCurrency }}</td>
+          </tr>
+          <tr v-if="values.propertyTaxDue">
+            <td>Property Tax Due</td>
+            <td>{{ values.propertyTaxDue | toCurrency }}</td>
+          </tr>
+          <tr v-if="netsheet.settlementFee">
+            <td>Settlement/Escrow Closing Fee</td>
+            <td>{{ netsheet.settlementFee | toCurrency }}</td>
+          </tr>
+          <tr v-if="values.titleInsurance">
+            <td>Expanded Title Insurance</td>
+            <td>{{ values.titleInsurance | toCurrency }}</td>
+          </tr>
+          <tr v-if="values.docStampTax">
+            <td>State Documentary Stamp Tax</td>
+            <td>{{ values.docStampTax | toCurrency }}</td>
+          </tr>
+          <tr v-if="netsheet.brokerAdmin">
+            <td>Broker Administration Fee</td>
+            <td>{{ netsheet.brokerAdmin | toCurrency }}</td>
+          </tr>
+          <tr v-if="values.commission">
+            <td>Professional Services (Commission)</td>
+            <td>{{ values.commission | toCurrency }}</td>
+          </tr>
+          <tr v-if="netsheet.homeWarranty">
+            <td>Home Warranty (Seller paid)</td>
+            <td>{{ netsheet.homeWarranty | toCurrency }}</td>
+          </tr>
+          <tr v-if="netsheet.sellerPaid">
+            <td>Seller paid closing costs</td>
+            <td>{{ netsheet.sellerPaid | toCurrency }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="uk-text-bold uk-text-uppercase">
+            <td>Total Estimated Debits</td>
+            <td>{{ values.totalDebits | toCurrency }}</td>
+          </tr>
+        </tfoot>
+      </table>
+      <table class="uk-table uk-table-small uk-table">
+        <tr>
+          <td class="uk-table-expand uk-text-right">Total Estimated Credits</td>
+          <td class="uk-width-small">{{ values.totalCredits | toCurrency }}</td>
+        </tr>
+        <tr>
+          <td class="uk-text-right">Total Estimated Debits</td>
+          <td>({{ values.totalDebits | toCurrency }})</td>
+        </tr>
+        <tfoot>
+          <tr class="uk-text-bold uk-text-uppercase">
+            <td class="uk-text-right">Net Proceeds from Sale</td>
+            <td>{{ values.netProceeds | toCurrency }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>

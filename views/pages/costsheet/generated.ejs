@@ -1,0 +1,235 @@
+<div id="generated-costsheet" v-cloak>
+  <div class="uk-container uk-margin-auto" uk-grid>
+    <div class="uk-width-3-5 uk-margin-auto uk-padding-remove">
+      <div class="uk-width-1-1 uk-text-center uk-margin-auto">
+        <h4 class="uk-text-primary uk-text-uppercase">Purchaser's Estimated Costs</h4>
+      </div>
+
+      <div class="uk-column-1-3 uk-text-center ">
+        <p class="uk-margin-remove-vertical"><small>Purchaser(s)</small><br><strong>{{ costsheet.client }}</strong></p>
+        <p class="uk-margin-remove-vertical"><small>Offer Status</small><br><strong>{{ costsheet.offerStatus }} Offer</strong></p>
+        <p class="uk-margin-remove-vertical"><small>Property Address</small><br><strong>{{ costsheet.address }}</strong></p>
+        <p class="uk-margin-remove-vertical"><small>Closing Date</small><br><strong>{{ costsheet.closingDate }}</strong></p>
+        <p class="uk-margin-remove-vertical"><small>Purchase Price</small><br><strong>{{ costsheet.purchasePrice | toCurrency }}</strong></p>
+        <p class="uk-margin-remove-vertical"><small>Loan Amount</small><br><strong>{{ values.principal | toCurrency }}</strong></p>
+      </div>
+      <div class="uk-width-1-1 uk-text-center uk-margin-auto uk-margin-top">
+        <a :href="'/costsheet/' + costsheet.type + '/' +costsheet.sid" class="uk-button uk-button-default uk-button-small">Edit</a>
+        <button class="uk-button uk-button-default uk-button-small" v-on:click="downloadPdf()">Download Signature Page</button>
+      </div>
+      <table class="uk-table uk-table-small uk-table-divider" v-if="notEmptyObject(values.closingCosts)">
+        <thead>
+          <tr>
+            <th class="uk-table-expand">Estimated Closing Costs</th>
+            <th class="uk-width-small"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-if="values.closingCosts.vaFundingFee">
+            <td>VA Funding Fee (included in principal)</td>
+            <td>{{ values.closingCosts.vaFundingFee | toCurrency }}</td>
+          </tr>
+          <tr v-if="costsheet.originationFee">
+            <td>Loan Origination Fee</td>
+            <td>{{ costsheet.originationFee | toCurrency }}</td>
+          </tr>
+          <tr v-if="costsheet.creditReport">
+            <td>Credit Report</td>
+            <td>{{ costsheet.creditReport | toCurrency }}</td>
+          </tr>
+          <tr v-if="costsheet.appraisalFee">
+            <td>Appraisal Fee</td>
+            <td>{{ costsheet.appraisalFee | toCurrency }}</td>
+          </tr>
+          <tr v-if="costsheet.brokerAdmin">
+            <td>Broker Administration Fee</td>
+            <td>{{ costsheet.brokerAdmin | toCurrency }}</td>
+          </tr>
+          <tr v-if="costsheet.settlementFee">
+            <td>Settlement & Escrow Closing Fee</td>
+            <td>{{ costsheet.settlementFee | toCurrency }}</td>
+          </tr>
+          <tr v-if="costsheet.certifications">
+            <td>Flood & Tax Certifications</td>
+            <td>{{ costsheet.certifications | toCurrency }}</td>
+          </tr>
+          <tr v-if="costsheet.endorsements">
+            <td>ALTA Endorsements</td>
+            <td>{{ costsheet.endorsements | toCurrency }}</td>
+          </tr>
+          <tr v-if="values.closingCosts.titleInsurance">
+            <td>Expanded Title Insurance</td>
+            <td>{{ values.closingCosts.titleInsurance | toCurrency }}</td>
+          </tr>
+          <tr v-if="costsheet.recordingFee">
+            <td>Recording Fee</td>
+            <td>{{ costsheet.recordingFee | toCurrency }}</td>
+          </tr>
+          <tr v-if="costsheet.plotPlan">
+            <td>Survey/Plot Plan</td>
+            <td>{{ costsheet.plotPlan | toCurrency }}</td>
+          </tr>
+          <tr v-if="costsheet.pestInspection">
+            <td>Pest Inspection</td>
+            <td>{{ costsheet.pestInspection | toCurrency }}</td>
+          </tr>
+          <tr v-if="costsheet.homeInspection">
+            <td>Home Inspection</td>
+            <td>{{ costsheet.homeInspection | toCurrency }}</td>
+          </tr>
+          <tr v-if="costsheet.radonInspection">
+            <td>Radon Inspection</td>
+            <td>{{ costsheet.radonInspection | toCurrency }}</td>
+          </tr>
+          <tr v-if="costsheet.homeWarranty">
+            <td>Home Warranty</td>
+            <td>{{ costsheet.homeWarranty | toCurrency }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="uk-text-bold uk-text-uppercase">
+            <td>Total Estimated Closing Costs</td>
+            <td>{{ values.closingCosts.closingCostTotal | toCurrency }}</td>
+          </tr>
+        </tfoot>
+      </table>
+      <table class="uk-table uk-table-small uk-table-divider" v-if="notEmptyObject(values.prepaids)">
+        <thead>
+          <tr>
+            <th class="uk-table-expand">Estimated Prepaids, Prorations, and Escrows</th>
+            <th class="uk-width-small"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-if="values.prepaids.interestPrepaid">
+            <td>Prepaid Interest</td>
+            <td>{{ values.prepaids.interestPrepaid | toCurrency }}</td>
+          </tr>
+          <tr v-if="costsheet.insurance">
+            <td>Prepaid Homeowner's Insurance (and Flood Insurance, if required)</td>
+            <td>{{ costsheet.insurance | toCurrency }}</td>
+          </tr>
+          <tr v-if="values.prepaids.insuranceImpound">
+            <td>Homeowner's Insurance Escrow ({{ costsheet.insuranceImpoundMonths }} months)</td>
+            <td>{{ values.prepaids.insuranceImpound | toCurrency }}</td>
+          </tr>
+          <tr v-if="values.prepaids.taxPrepaid">
+            <td>Property Tax Proration ({{ values.prepaids.taxDaysOwed }} days, {{ costsheet.closingDate }} to {{ values.prepaids.taxYearEnd }})</td>
+            <td>{{ values.prepaids.taxPrepaid | toCurrency }}</td>
+          </tr>
+          <tr v-if="values.prepaids.taxImpound">
+            <td>Property Tax Escrow ({{values.prepaids.taxImpoundMonths}} months, {{ costsheet.propertyTax | toCurrency }}/year)</td>
+            <td>{{ values.prepaids.taxImpound | toCurrency }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="uk-text-bold uk-text-uppercase">
+            <td>Total Estimated Prepaids, Prorations, and Escrows</td>
+            <td>{{ values.prepaids.prepaidsTotal | toCurrency }}</td>
+          </tr>
+        </tfoot>
+      </table>
+      <table class="uk-table uk-table-small uk-table-divider" v-if="notEmptyObject(values.credits)">
+        <thead>
+          <tr>
+            <th class="uk-table-expand">Estimated Credits</th>
+            <th class="uk-width-small"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-if="costsheet.earnestDeposit">
+            <td>Earnest Money Deposit</td>
+            <td>({{ costsheet.earnestDeposit | toCurrency }})</td>
+          </tr>
+          <tr v-if="costsheet.lenderPaid">
+            <td>Estimated Lender Paid Costs</td>
+            <td>({{ costsheet.lenderPaid | toCurrency }})</td>
+          </tr>
+          <tr v-if="costsheet.sellerPaid">
+            <td>Estimated Seller Paid Costs</td>
+            <td>({{ costsheet.sellerPaid | toCurrency }})</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="uk-text-bold uk-text-uppercase">
+            <td>Total Estimated Credits</td>
+            <td>({{ values.credits.creditsTotal | toCurrency }})</td>
+          </tr>
+        </tfoot>
+      </table>
+      <table class="uk-table uk-table-small uk-table-divider" v-if="notEmptyObject(values.cashToClose)">
+        <thead>
+          <tr>
+            <th class="uk-table-expand">Estimated Cash Needed to Close</th>
+            <th class="uk-width-small"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-if="values.cashToClose.downPayment">
+            <td>Down Payment</td>
+            <td>{{ values.cashToClose.downPayment | toCurrency }}</td>
+          </tr>
+          <tr v-if="values.cashToClose.cashPurchasePrice">
+            <td>Purchase Price</td>
+            <td>{{ values.cashToClose.cashPurchasePrice | toCurrency }}</td>
+          </tr>
+          <tr v-if="values.cashToClose.closingCostTotal">
+            <td>Estimated Closing Costs</td>
+            <td>{{ values.cashToClose.closingCostTotal | toCurrency }}</td>
+          </tr>
+          <tr v-if="values.cashToClose.prepaidsTotal">
+            <td>Estimated Prepaids, Prorations, and Escrows</td>
+            <td>{{ values.cashToClose.prepaidsTotal | toCurrency }}</td>
+          </tr>
+          <tr v-if="values.cashToClose.creditsTotal">
+            <td>Estimated Credits</td>
+            <td>({{ values.cashToClose.creditsTotal | toCurrency }})</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="uk-text-bold uk-text-uppercase">
+            <td>Total Estimated Cash Needed at Closing</td>
+            <td>{{ values.cashToClose.cashToCloseTotal | toCurrency }}</td>
+          </tr>
+        </tfoot>
+      </table>
+      <table class="uk-table uk-table-small uk-table-divider" v-if="notEmptyObject(values.payment)">
+        <thead>
+          <tr>
+            <th class="uk-table-expand">Estimated Monthly Payment</th>
+            <th class="uk-width-small"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-if="values.payment.mortgagePayment">
+            <td>Principal and Interest ({{costsheet.loanType}} Loan, {{costsheet.period}} Year Term @ {{costsheet.interest}}%)</td>
+            <td>{{ values.payment.mortgagePayment | toCurrency }}</td>
+          </tr>
+          <tr v-if="values.payment.taxEscrow">
+            <td>Property Tax Escrow</td>
+            <td>{{ values.payment.taxEscrow | toCurrency }}</td>
+          </tr>
+          <tr v-if="values.payment.insuranceEscrow">
+            <td>Homeowners Insurance Escrow</td>
+            <td>{{ values.payment.insuranceEscrow | toCurrency }}</td>
+          </tr>
+          <tr v-if="values.payment.pmi">
+            <td>Estimated Mortgage Insurance</td>
+            <td>{{ values.payment.pmi | toCurrency }}</td>
+          </tr>
+          <tr v-if="values.payment.associationFee">
+            <td>Homeowner's Association Fee</td>
+            <td>{{ values.payment.associationFee | toCurrency }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="uk-text-bold uk-text-uppercase">
+            <td>Total Estimated Monthly Payment</td>
+            <td>{{ values.payment.paymentTotal | toCurrency }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+<%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>
